@@ -25,32 +25,52 @@ class Combat:
         rounds = 0
         while armyattack.hp > 0 and armydefense.hp > 0:
             # Offense Check of both armies
+
             armya = sum(dice.roll('1d20')) + armyattack.om
             armyb = sum(dice.roll('1d20')) + armydefense.om
             print(f'{armyattack.name} rolled {armya}')
             print(f'{armydefense.name} rolled {armyb}')
 
             # Defense Check of both armies
+
             armyadmg = armyb - armyattack.dv
             if armyadmg > 0:
                 armyattack.hp = armyattack.hp - armyadmg
+
             armybdmg = armya - armydefense.dv
             if armybdmg > 0:
                 armydefense.hp = armydefense.hp - armybdmg
+
             print(f'{armyattack.name} did {armybdmg} to {armydefense.name}, hp now {armydefense.hp}')
             print(f'{armydefense.name} did {armyadmg} to {armyattack.name}, hp now {armyattack.hp}')
 
+            if armyattack.hp <= 0 and armydefense.hp <= 0:
+                print(f'Both armies are too worn down to continue!')
+                return()
+            elif armyattack.hp <= 0:
+                print(f'{armyattack.name} have been crushed!')
+                return()
+            elif armydefense.hp <= 0:
+                print(f'{armydefense.name} have been crushed!')
+                return()
+
             # Morale Check
+
             if armyattack.hp <= armyattack.acr:
                 routa = sum(dice.roll('1d20')) + armyattack.morale
                 if routa < 15:
                     armyattack.hp = 0
                     print(f'{armyattack.name} routed!')
+                else:
+                    print(f'{armyattack.name} held together!')
+
             if armydefense.hp <= armydefense.acr:
                 routb = sum(dice.roll('1d20')) + armydefense.morale
                 if routb < 15:
                     armydefense.hp = 0
                     print(f'{armydefense.name} routed!')
+                else:
+                    print(f'{armydefense.name} held together!')
 
             rounds = rounds + 1
 
