@@ -46,13 +46,13 @@ class Combat:
 
             if armyattack.hp <= 0 and armydefense.hp <= 0:
                 print(f'Both armies are too worn down to continue!')
-                return()
+                return "draw"
             elif armyattack.hp <= 0:
                 print(f'{armyattack.name} have been crushed!')
-                return()
+                return armydefense
             elif armydefense.hp <= 0:
                 print(f'{armydefense.name} have been crushed!')
-                return()
+                return armyattack
 
             # Morale Check
 
@@ -61,6 +61,7 @@ class Combat:
                 if routa < 15:
                     armyattack.hp = 0
                     print(f'{armyattack.name} routed!')
+                    return armydefense
                 else:
                     print(f'{armyattack.name} held together!')
 
@@ -69,6 +70,7 @@ class Combat:
                 if routb < 15:
                     armydefense.hp = 0
                     print(f'{armydefense.name} routed!')
+                    return armyattack
                 else:
                     print(f'{armydefense.name} held together!')
 
@@ -81,10 +83,25 @@ HumArmy = Army("Humans", 100, "human", 16, 13, 3, 3, 0)
 # print(OrcArmy.__dict__)
 # print(HumArmy.__dict__)
 
+wins = [0, 0, 0]
+cur_battle = 1
+battles = 10
+
 battle1 = Combat()
 
-battle1.battle(OrcArmy, HumArmy)
+while battles > 0:
+    OrcArmy = Army("Orcs", 100, "orc", 11, 13, 2, 2, 0)
+    HumArmy = Army("Humans", 100, "human", 16, 13, 3, 3, 0)
+    print(f'\r\nBATTLE {cur_battle}:')
+    result = battle1.battle(OrcArmy, HumArmy)
+    if result == "draw":
+        wins[2] = wins[2] + 1
+    elif result.name == "Humans":
+        wins[0] = wins[0] + 1
+    elif result.name == "Orcs":
+        wins[1] = wins[1] + 1
+    battles = battles - 1
+    cur_battle = cur_battle + 1
 
-die = dice.roll('1d20')
-score = sum(die) + OrcArmy.om
-# print(f'Rolled {die}, total is {score}')
+print(f'\r\nResults : HUMANS / ORCS / DRAW',)
+print(wins)
