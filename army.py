@@ -80,9 +80,6 @@ class Combat:
 OrcArmy = Army("Orcs", 100, "orc", 11, 13, 2, 2, 0)
 HumArmy = Army("Humans", 100, "human", 16, 13, 3, 3, 0)
 
-# print(OrcArmy.__dict__)
-# print(HumArmy.__dict__)
-
 wins = [0, 0, 0]
 cur_battle = 1
 battles = 10
